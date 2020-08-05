@@ -1,5 +1,5 @@
 const express = require("express");
-
+const userRouter = require("./users/userRouter");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const server = express();
@@ -9,21 +9,17 @@ server.use(helmet());
 server.use(logger);
 
 server.get("/", (req, res) => {
-  const nameInsert = req.name ? `${req.name}` : ""
-
-  res.send(`<h2>Let's write some middleware!</h2>
-  <p>Welcome ${nameInsert} to the Lambda Users API</p>`
-  
-  );
+  // const nameInsert = req.name ? `${req.name}` : ""
+  res.send(`<h2>Let's write some middleware!</h2>  `);
 });
 
-//custom middleware
-
+////CUSTOM MIDDLEWARES
+//// 1. LOGGER
 function logger(req, res, next) {
-  const name = req.headers.name;
-  req.name = name;
-  console.log(`${req.name} made a ${req.method} request to ${req.url}`);
+  console.log(`[${new Date().toISOString()}] ${req.method} to ${req.url}`);
   next();
 }
+
+server.use("/api/users", userRouter);
 
 module.exports = server;
