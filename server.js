@@ -10,7 +10,8 @@ server.use(logger);
 
 server.get("/", (req, res) => {
   // const nameInsert = req.name ? `${req.name}` : ""
-  res.send(`<h2>Let's write some middleware!</h2>  `);
+  const message = process.env.MESSAGE || "hello from code";
+  res.status(200).json({ message, database: process.env.DB_NAME });
 });
 
 ////CUSTOM MIDDLEWARES
